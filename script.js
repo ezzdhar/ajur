@@ -254,3 +254,123 @@ if (heroVideo) {
 
 
 // End of file
+
+/* ========================================
+   GALLERY FILTERING (Designs Page)
+======================================== */
+document.addEventListener('DOMContentLoaded', () => {
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const galleryItems = document.querySelectorAll('.gallery-item');
+
+  if (filterBtns.length > 0) {
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filterValue = btn.getAttribute('data-filter');
+
+        // Update active button status
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // Filter items
+        galleryItems.forEach((item, index) => {
+          if (filterValue === 'all' || item.classList.contains(filterValue)) {
+            item.style.display = 'block';
+            
+            // Re-trigger fade up animation with stagger
+            item.classList.remove('show');
+            setTimeout(() => {
+              item.classList.add('show');
+              // Optional: reset delay for filtering
+              item.style.transitionDelay = `${(index % 3) * 0.1}s`;
+            }, 10);
+            
+          } else {
+            item.style.display = 'none';
+            item.classList.remove('show');
+          }
+        });
+      });
+    });
+
+    if (activeBtn) activeBtn.click();
+  }
+});
+/* ========================================
+   LIGHTBOX LOGIC
+======================================== */
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxClose = document.getElementById('lightboxClose');
+const lightboxPrev = document.getElementById('lightboxPrev');
+const lightboxNext = document.getElementById('lightboxNext');
+
+let currentImages = [];
+let currentIndex = 0;
+
+function openLightbox(index) {
+  currentIndex = index;
+  lightboxImg.src = currentImages[currentIndex].src;
+  lightbox.classList.add('active');
+  document.body.style.overflow = 'hidden'; // Stop scroll
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('active');
+  document.body.style.overflow = ''; // Restore scroll
+}
+
+function nextImage() {
+  currentIndex = (currentIndex + 1) % currentImages.length;
+  lightboxImg.src = currentImages[currentIndex].src;
+}
+
+function prevImage() {
+  currentIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+  lightboxImg.src = currentImages[currentIndex].src;
+}
+
+// Initial attachment to images
+function updateLightboxTriggers() {
+  const visibleItems = Array.from(document.querySelectorAll('.gallery-item:not([style*="display: none"])'));
+  currentImages = visibleItems.map(item => item.querySelector('img'));
+
+  visibleItems.forEach((item, index) => {
+    item.onclick = (e) => {
+      e.preventDefault();
+      openLightbox(index);
+    };
+  });
+}
+
+if (lightboxClose) {
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightboxNext.addEventListener('click', nextImage);
+  lightboxPrev.addEventListener('click', prevImage);
+
+  // Close on background click
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  // Keyboard support
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') nextImage();
+    if (e.key === 'ArrowLeft') prevImage();
+  });
+}
+
+// Update triggers whenever filter changes
+document.addEventListener('DOMContentLoaded', () => {
+    // Wait slightly for filter animation if any
+    setTimeout(updateLightboxTriggers, 100);
+
+    // Re-wrap the previous filter code to call updateLightboxTriggers
+    const originalFilterBtns = document.querySelectorAll('.filter-btn');
+    originalFilterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            setTimeout(updateLightboxTriggers, 300);
+        });
+    });
+});
