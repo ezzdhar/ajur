@@ -2556,12 +2556,12 @@ ul {
 
 .designs-hero .hero-subtitle {
   font-family: 'Tajawal', sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.6;
   margin-top: 15px;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .designs-hero .badge-with-lines {
@@ -2572,13 +2572,13 @@ ul {
 }
 
 .designs-hero .badge-with-lines .modern-badge {
-  font-size: clamp(32px, 8vw, 56px);
-  font-weight: 900;
+  font-size: 40px;
+  font-weight: 600;
   background: transparent;
   color: #fff;
   border: none;
   padding: 0;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.2px;
 }
 
 .designs-hero .badge-with-lines .side-line {
@@ -2606,12 +2606,12 @@ ul {
   background: #FFFBF5;
   border: 1px solid #F1CE88;
   border-radius: 4px;
-  /* More square like screenshot */
-  padding: 40px 20px;
+  padding: 19px 20px;
   text-align: center;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   max-width: 900px;
   margin: 0 auto;
+  margin-top: 3rem;
 }
 
 .filter-title {
