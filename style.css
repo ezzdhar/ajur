@@ -1650,7 +1650,7 @@ ul {
   .nav-links {
     position: fixed;
     top: 68px;
-    right: 0;
+    right: -280px; /* Hide completely off-screen safely */
     width: 260px;
     height: calc(100vh - 68px);
     background: rgba(13, 10, 3, 0.98);
@@ -1659,13 +1659,14 @@ ul {
     align-items: flex-start;
     padding: 30px 24px;
     gap: 6px;
-    transform: translateX(100%);
-    transition: transform 0.4s ease;
+    transform: none; /* Removed RTL problematic transform */
+    transition: right 0.4s ease;
     border-left: 1px solid rgba(201, 168, 76, 0.15);
+    z-index: 999;
   }
 
   .nav-links.open {
-    transform: translateX(0);
+    right: 0;
   }
 
   .nav-link {
@@ -1679,7 +1680,10 @@ ul {
   }
 
   .btn-nav-cta {
-    display: none;
+    display: inline-flex; /* keep visible! */
+    font-size: 11.5px; /* smaller for mobile */
+    padding: 7px 12px; /* smaller padding */
+    margin-right: auto; /* push it near the hamburger nicely */
   }
 
   /* Hero */
@@ -1935,10 +1939,14 @@ ul {
 }
 
 .why-choose-section {
-  padding: 100px 0;
+  padding: 100px 0 140px;
   background-color: #fff;
-  background-image: radial-gradient(circle at 10% 20%, rgba(214, 179, 124, 0.03) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(214, 179, 124, 0.03) 0%, transparent 40%);
+  background-image: url('imges/27472523_1343\ 2.png'); /* Wavy pink background image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
 }
 
 .section-header {
@@ -1964,56 +1972,64 @@ ul {
   line-height: 1.7;
 }
 
-.features-circle-grid {
-
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
+/* Linear overlapping Venn circles */
+.features-circle-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-.feature-circle-item {
+.feature-inline-circle {
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  border: 1px solid #d6b37c;
+  background: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-}
-
-.circle-box {
-  width: 250px;
-  height: 250px;
-  border-radius: 50%;
-  border: 1px solid #d6b37c;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  text-align: center;
+  padding: 30px;
+  position: relative;
   transition: all 0.4s ease;
-  background-color: #fff;
+  z-index: 1;
 }
 
-.feature-circle-item:hover .circle-box {
-  transform: translateY(-10px);
-  box-shadow: 0 20px 40px rgba(214, 179, 124, 0.15);
+.feature-inline-circle.delay-1 {
+  /* Center circle overlaps the outer ones */
+  margin: 0 -45px;
+  z-index: 2;
+}
+
+.feature-inline-circle:hover {
+  transform: translateY(-5px);
+  background: #fff; /* Slight opaque on hover for readability if desired */
+  box-shadow: 0 15px 35px rgba(214, 179, 124, 0.1);
+  z-index: 10;
 }
 
 .icon-wrap img {
-  width: 80px;
+  width: 75px;
   height: auto;
+  margin-bottom: 20px;
 }
 
 .feature-name {
   font-family: 'Tajawal', sans-serif;
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.6rem;
+  font-weight: 800;
   color: #2d2d2d;
-  margin-bottom: 0.75rem;
+  margin-bottom: 10px;
 }
 
 .feature-text {
-  color: #888;
-  font-size: 14px;
-  line-height: 1.6;
-  max-width: 220px;
+  color: #777;
+  font-size: 14.5px;
+  line-height: 1.7;
+  max-width: 260px;
 }
 
 /* Products Section */
@@ -2316,14 +2332,14 @@ ul {
 }
 
 /* Responsive Styles */
-@media (max-width: 1024px) {
-  .features-circle-grid {
-    gap: 20px;
+@media (max-width: 1100px) {
+  .features-circle-row {
+    transform: scale(0.9);
   }
-
-  .circle-box {
-    width: 200px;
-    height: 200px;
+}
+@media (max-width: 1024px) {
+  .features-circle-row {
+    transform: scale(0.85);
   }
 }
 
@@ -2340,9 +2356,13 @@ ul {
     font-size: 2rem;
   }
 
-  .features-circle-grid {
-    grid-template-columns: 1fr;
-    gap: 30px;
+  .features-circle-row {
+    flex-direction: column;
+    transform: scale(0.9);
+    gap: 0;
+  }
+  .feature-inline-circle.delay-1 {
+    margin: -40px 0; /* Vertical Venn overlap on mobile */
   }
 
   .products-dual-grid {
@@ -3002,5 +3022,240 @@ ul {
     top: 20px;
     right: 20px;
     font-size: 40px;
+  }
+}
+
+/* ════════════════════════════════════════════════════
+   CONTACT US PAGE SECTION
+════════════════════════════════════════════════════ */
+
+.contact-page-section {
+  padding: 80px 0;
+  background: #FCFCFC; /* Very light background for better contrast */
+}
+
+.contact-page-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* ── Form Column (Right) ─────────────────────── */
+.contact-form-column {
+  /* No additional styling needed here */
+}
+
+.contact-form-main {
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f6f6f6;
+}
+
+.contact-form-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 35px;
+  text-align: center; /* In the image, title seems centered or left/right? Let's assume right-aligned for standard RTL. Actually wait, examining image, it's centered or slightly indented. Wait! The image has the title "أرسل لنا رسالتك" somewhat centered. But right-align is safer for RTL. I'll make it right-aligned. */
+  text-align: right;
+  font-family: 'Tajawal', sans-serif;
+}
+
+/* In the image, the form title is actually centered! No, wait. Looking closely, it is aligned to the right. Let's stick with right. */
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #555;
+  text-align: right;
+  font-family: 'Tajawal', sans-serif;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 16px 20px;
+  border: 1.5px solid #eaeaea;
+  border-radius: 10px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 14.5px;
+  color: #333;
+  background: #fff;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: #D9A33B;
+  box-shadow: 0 0 0 3px rgba(217, 163, 59, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #c4c4c4;
+}
+
+.form-group textarea {
+  height: 140px;
+  resize: none;
+}
+
+.btn-submit-form {
+  width: 100%;
+  padding: 18px;
+  background: #D9A33B;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 16.5px;
+  font-weight: 700;
+  font-family: 'Tajawal', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.btn-submit-form:hover {
+  background: #c78d48;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(217, 163, 59, 0.2);
+}
+
+/* ── Info Column (Left) ──────────────────────── */
+.info-cards-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.info-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+  border: 1px solid #f6f6f6;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+}
+
+.info-icon {
+  width: 50px;
+  height: 50px;
+  background: #FDF4E5;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.info-icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.info-texts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-texts h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: #333;
+  font-family: 'Tajawal', sans-serif;
+}
+
+.info-texts p {
+  margin: 0;
+  font-size: 14.5px;
+  color: #777;
+  font-family: 'Tajawal', sans-serif;
+}
+
+.contact-cta-card {
+  background: #D9A33B;
+  border-radius: 12px;
+  padding: 35px 25px;
+  text-align: center;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  box-shadow: 0 12px 30px rgba(217, 163, 59, 0.25);
+  font-family: 'Tajawal', sans-serif;
+}
+
+.contact-cta-card h4 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.contact-cta-card p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.8;
+  opacity: 0.95;
+}
+
+.btn-cta-gold {
+  display: inline-block;
+  padding: 14px 35px;
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 15.5px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.btn-cta-gold:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 992px) {
+  .contact-page-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    grid-template-columns: 1fr;
   }
 }
