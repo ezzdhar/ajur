@@ -1650,7 +1650,8 @@ ul {
   .nav-links {
     position: fixed;
     top: 68px;
-    right: -280px; /* Hide completely off-screen safely */
+    right: -280px;
+    /* Hide completely off-screen safely */
     width: 260px;
     height: calc(100vh - 68px);
     background: rgba(13, 10, 3, 0.98);
@@ -1659,7 +1660,8 @@ ul {
     align-items: flex-start;
     padding: 30px 24px;
     gap: 6px;
-    transform: none; /* Removed RTL problematic transform */
+    transform: none;
+    /* Removed RTL problematic transform */
     transition: right 0.4s ease;
     border-left: 1px solid rgba(201, 168, 76, 0.15);
     z-index: 999;
@@ -1680,10 +1682,14 @@ ul {
   }
 
   .btn-nav-cta {
-    display: inline-flex; /* keep visible! */
-    font-size: 11.5px; /* smaller for mobile */
-    padding: 7px 12px; /* smaller padding */
-    margin-right: auto; /* push it near the hamburger nicely */
+    display: inline-flex;
+    /* keep visible! */
+    font-size: 11.5px;
+    /* smaller for mobile */
+    padding: 7px 12px;
+    /* smaller padding */
+    margin-right: auto;
+    /* push it near the hamburger nicely */
   }
 
   /* Hero */
@@ -1941,7 +1947,8 @@ ul {
 .why-choose-section {
   padding: 100px 0 140px;
   background-color: #fff;
-  background-image: url('imges/27472523_1343\ 2.png'); /* Wavy pink background image */
+  background-image: url('imges/27472523_1343\ 2.png');
+  /* Wavy pink background image */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -2006,7 +2013,8 @@ ul {
 
 .feature-inline-circle:hover {
   transform: translateY(-5px);
-  background: #fff; /* Slight opaque on hover for readability if desired */
+  background: #fff;
+  /* Slight opaque on hover for readability if desired */
   box-shadow: 0 15px 35px rgba(214, 179, 124, 0.1);
   z-index: 10;
 }
@@ -2337,6 +2345,7 @@ ul {
     transform: scale(0.9);
   }
 }
+
 @media (max-width: 1024px) {
   .features-circle-row {
     transform: scale(0.85);
@@ -2361,8 +2370,10 @@ ul {
     transform: scale(0.9);
     gap: 0;
   }
+
   .feature-inline-circle.delay-1 {
-    margin: -40px 0; /* Vertical Venn overlap on mobile */
+    margin: -40px 0;
+    /* Vertical Venn overlap on mobile */
   }
 
   .products-dual-grid {
@@ -2898,6 +2909,21 @@ ul {
   }
 }
 
+@media (max-width: 450px) {
+  .filter-btn {
+    padding: 12px 15px;
+    font-size: 13px;
+  }
+
+  .filter-controls {
+    gap: 0px;
+  }
+
+  .filter-btn.active {
+    padding: 12px 23px;
+  }
+}
+
 /* ================= LIGHTBOX STYLES ================= */
 .lightbox {
   position: fixed;
@@ -3031,7 +3057,8 @@ ul {
 
 .contact-page-section {
   padding: 80px 0;
-  background: #FCFCFC; /* Very light background for better contrast */
+  background: #FCFCFC;
+  /* Very light background for better contrast */
 }
 
 .contact-page-container {
@@ -3062,7 +3089,8 @@ ul {
   font-weight: 800;
   color: #1a1a1a;
   margin: 0 0 35px;
-  text-align: center; /* In the image, title seems centered or left/right? Let's assume right-aligned for standard RTL. Actually wait, examining image, it's centered or slightly indented. Wait! The image has the title "أرسل لنا رسالتك" somewhat centered. But right-align is safer for RTL. I'll make it right-aligned. */
+  text-align: center;
+  /* In the image, title seems centered or left/right? Let's assume right-aligned for standard RTL. Actually wait, examining image, it's centered or slightly indented. Wait! The image has the title "أرسل لنا رسالتك" somewhat centered. But right-align is safer for RTL. I'll make it right-aligned. */
   text-align: right;
   font-family: 'Tajawal', sans-serif;
 }
@@ -3164,7 +3192,6 @@ ul {
 .info-icon {
   width: 50px;
   height: 50px;
-  background: #FDF4E5;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -3173,8 +3200,8 @@ ul {
 }
 
 .info-icon img {
-  width: 24px;
-  height: 24px;
+  width: 45px;
+  height: 45px;
   object-fit: contain;
 }
 
