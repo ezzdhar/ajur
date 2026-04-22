@@ -2422,6 +2422,35 @@ ul {
   .footer-main-grid {
     grid-template-columns: 1fr;
     gap: 40px;
+    text-align: center;
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-title {
+    text-align: center;
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .footer-contact-list,
+  .footer-links-list {
+    width: max-content;
+    margin: 0 auto;
+  }
+
+  .footer-contact-list li,
+  .footer-links-list li {
+    justify-content: flex-start;
+  }
+
+  .footer-social-links {
+    justify-content: center;
   }
 
   .footer-bottom {
@@ -2944,10 +2973,15 @@ ul {
 }
 
 .lightbox-content {
-  max-width: 85%;
-  max-height: 85vh;
+  width: 94%;
+  height: 90vh;
+  max-width: 94%;
+  max-height: 90vh;
   position: relative;
-  transform: scale(0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.95);
   transition: transform 0.4s ease;
 }
 
