@@ -2935,6 +2935,10 @@ ul {
     gap: 0px;
   }
 
+  .filter-controls {
+    width: 100%;
+  }
+
   .filter-btn.active {
     padding: 12px 23px;
   }
