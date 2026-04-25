@@ -407,7 +407,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const filterBtns = document.querySelectorAll('.filter-btn');
 
   if (filterBtns.length > 0) {
-    // Determine initial filter
     const activeBtn = document.querySelector('.filter-btn.active');
     const initialFilter = activeBtn ? activeBtn.getAttribute('data-filter') : 'modern';
 
@@ -421,5 +420,29 @@ document.addEventListener('DOMContentLoaded', () => {
         renderGallery(filterValue);
       });
     });
+  }
+
+  /* ========================================
+     ACCESSORIES PAGE – Static Gallery Lightbox
+  ======================================== */
+  const galleryGrid = document.getElementById('galleryGrid');
+
+  if (galleryGrid && filterBtns.length === 0) {
+    const staticItems = galleryGrid.querySelectorAll('.gallery-item');
+
+    if (staticItems.length > 0) {
+      const accessoriesImages = Array.from(staticItems).map(item => {
+        const img = item.querySelector('img');
+        return { src: img ? img.getAttribute('src') : '', alt: img ? img.getAttribute('alt') : '' };
+      });
+
+
+      staticItems.forEach((item, index) => {
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', () => {
+          openLightboxManual(accessoriesImages, index);
+        });
+      });
+    }
   }
 });
