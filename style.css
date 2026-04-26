@@ -1750,25 +1750,78 @@ ul {
 
   .features-bar {
     padding: 24px 20px;
+    width: 90%;
   }
 
   .features-container {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
     gap: 0;
+    /* DOM order:
+       nth-child(1) = feature-item  (تصميم مميز)    → col1 row1
+       nth-child(2) = feature-divider (عمودي)         → hidden
+       nth-child(3) = feature-item  (جودة عالية)     → col2 row1
+       nth-child(4) = feature-divider (عمودي)         → hidden
+       nth-child(5) = feature-item  (سرعة التنفيذ)   → col1 row3
+       nth-child(6) = feature-divider (عمودي)         → hidden
+       nth-child(7) = feature-item  (قياس وتركيب)    → col2 row3
+    */
   }
 
   .feature-item {
-    flex: 0 0 50%;
-    padding: 16px 10px;
-    border-bottom: 1px solid var(--border);
+    padding: 18px 10px;
   }
 
-  .feature-item:nth-child(n+7) {
-    border-bottom: none;
+  /* نموذج الـ Grid:
+     row1: تصميم مميز | جودة عالية
+     row2: ─────────────────── (خط فاصل)
+     row3: سرعة التنفيذ | قياس وتركيب
+  */
+
+  /* العناصر في الصف الأول */
+  .features-container > .feature-item:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .features-container > .feature-item:nth-child(3) {
+    grid-column: 2;
+    grid-row: 1;
   }
 
+  /* العناصر في الصف الثالث */
+  .features-container > .feature-item:nth-child(5) {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .features-container > .feature-item:nth-child(7) {
+    grid-column: 2;
+    grid-row: 3;
+  }
+
+  /* الخطوط العمودية تختفي ومش بتاخد مساحة في الـ Grid */
   .feature-divider {
     display: none;
+  }
+
+  /* خط أفقي فاصل بين الصفين - يمتد بالكامل عبر العمودين */
+  .features-container::before {
+    content: '';
+    grid-column: 1 / -1;
+    grid-row: 2;
+    height: 1px;
+    background: var(--border);
+    margin: 0 10px;
+  }
+
+  /* خط أفقي أسفل الصف الثاني (تحت قياس وتركيب وسرعة التنفيذ) */
+  .features-container::after {
+    content: '';
+    grid-column: 1 / -1;
+    grid-row: 4;
+    height: 1px;
+    background: var(--border);
+    margin: 0 10px;
   }
 
   /* About */
@@ -2723,35 +2776,44 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 40px;
+  gap: 6px;
   background: #fff;
-  padding: 8px 10px;
+  padding: 6px;
   border-radius: 100px;
   border: 1px solid #F1CE88;
   z-index: 2;
   position: relative;
-  width: 85%;
+  width: auto;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .filter-btn {
-  padding: 12px 19px;
+  padding: 11px 22px;
   background: transparent;
-  color: #333;
+  color: #555;
   font-family: 'Tajawal', sans-serif;
-  font-weight: 500;
-  font-size: 16px;
+  font-weight: 600;
+  font-size: 15px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
   border: none;
   border-radius: 100px;
+  white-space: nowrap;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.filter-btn:hover {
+  background: rgba(217, 160, 91, 0.1);
+  color: #D9A05B;
 }
 
 .filter-btn.active {
   background: #D9A05B;
   color: #fff;
   font-weight: 700;
-  padding: 12px 45px;
-  box-shadow: 0 4px 15px rgba(217, 160, 91, 0.2);
+  box-shadow: 0 4px 15px rgba(217, 160, 91, 0.3);
 }
 
 /* Gallery Grid */
@@ -2918,38 +2980,50 @@ ul {
     gap: 25px;
   }
 
+  .filter-controls-wrapper {
+    margin-top: 30px;
+  }
+
+  .filter-controls {
+    gap: 4px;
+    padding: 5px;
+  }
+
   .filter-btn {
-    padding: 12px 30px;
-    font-size: 15px;
-    min-width: 90px;
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .decorative-circles {
+    display: none;
   }
 }
 
-@media (max-width: 450px) {
-  .filter-btn {
-    padding: 12px 10px;
-    font-size: 13px;
+@media (max-width: 500px) {
+  .filter-controls-wrapper {
+    padding: 0 16px;
   }
 
   .filter-controls {
-    gap: 0px;
-  }
-
-  .filter-controls {
+    gap: 3px;
+    padding: 4px;
+    border-radius: 16px;
     width: 100%;
   }
 
-  .filter-btn.active {
-    padding: 12px 23px;
+  .filter-btn {
+    padding: 9px 10px;
+    font-size: 13px;
+    border-radius: 12px;
+    flex: 1;
+    text-align: center;
   }
 }
 
-@media (max-width: 390px) {
+@media (max-width: 380px) {
   .filter-btn {
-    padding: 7px 0px;
-    font-size: 11px;
-    font-weight: 700;
-    min-width: 80px;
+    padding: 8px 6px;
+    font-size: 12px;
   }
 }
 
