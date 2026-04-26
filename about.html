@@ -545,8 +545,8 @@
 
             .vmv-circle-big {
                 position: relative;
-                width: 360px;
-                height: 360px;
+                width:415px;
+                height:415px;
                 left: auto !important;
                 right: auto !important;
                 top: auto !important;
@@ -590,6 +590,29 @@
             }
         }
 
+        @media (max-width: 768px) {
+            .vmv-circle-big {
+                height: 400px !important;
+                padding: 50px !important;
+            }
+
+            .vmv-circle-values {
+                padding-bottom: 80px !important;
+            }
+
+            .vmv-title {
+                font-size: 20px;
+            }
+
+            .vmv-desc {
+                font-size: 13px;
+            }
+
+            .vmv-list li {
+                font-size: 12px;
+            }
+        }
+
         @media (max-width: 480px) {
             .abt-title {
                 font-size: 26px;
@@ -615,6 +638,10 @@
 
             .vmv-desc {
                 font-size: 12.5px;
+            }
+
+            .vmv-circle-content{
+                margin-top:-2rem;
             }
         }
     </style>
