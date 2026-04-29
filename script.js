@@ -252,6 +252,57 @@ if (heroVideo) {
 
 
 
+/* ========================================
+   ABOUT SLIDER
+======================================== */
+const aboutSlider = document.querySelector('.about-slider');
+const aboutDots = document.querySelectorAll('.about-dot');
+let aboutCurrent = 0;
+let aboutAutoSlide;
+
+function updateAboutSlider() {
+  if (!aboutSlider) return;
+  const moveDistance = aboutCurrent * 100;
+  // In RTL, 100% moves slider visually to the right
+  aboutSlider.style.transform = `translateX(${moveDistance}%)`;
+
+  aboutDots.forEach((dot, index) => {
+    dot.classList.toggle('active', index === aboutCurrent);
+  });
+}
+
+function nextAboutSlide() {
+  const slides = document.querySelectorAll('.about-slide');
+  if (slides.length === 0) return;
+  aboutCurrent = (aboutCurrent + 1) % slides.length;
+  updateAboutSlider();
+}
+
+if (aboutSlider && aboutDots.length > 0) {
+  aboutDots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      aboutCurrent = parseInt(dot.getAttribute('data-index'));
+      updateAboutSlider();
+      resetAboutAutoSlide();
+    });
+  });
+}
+
+function startAboutAutoSlide() {
+  if (!aboutSlider) return;
+  aboutAutoSlide = setInterval(nextAboutSlide, 2500);
+}
+
+function resetAboutAutoSlide() {
+  clearInterval(aboutAutoSlide);
+  startAboutAutoSlide();
+}
+
+window.addEventListener('load', () => {
+  if (aboutSlider) {
+    startAboutAutoSlide();
+  }
+});
 
 // End of file
 
