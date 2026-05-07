@@ -497,3 +497,112 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
+
+/* ========================================
+   PROJECTS SLIDER LOGIC
+======================================== */
+const projectsCarousel = document.getElementById('projectsCarousel');
+const pDots = document.querySelectorAll('.p-dot');
+let pCurrent = 0;
+let pAutoSlide;
+
+function updateProjectsSlider() {
+  if (!projectsCarousel) return;
+  const slides = projectsCarousel.querySelectorAll('.project-slide');
+  if (slides.length === 0) return;
+  
+  const gap = 24;
+  const slideWidth = slides[0].offsetWidth;
+  const containerWidth = projectsCarousel.parentElement.offsetWidth;
+  
+  // Center the active slide
+  const offset = (containerWidth - slideWidth) / 2;
+  // In RTL, we calculate visual movement. 
+  // If slide 0 is at right (0px), slide 1 is to its left (slideWidth + gap).
+  // To bring slide 1 to center, we need to move the carousel RIGHT by (slideWidth + gap - offset)?
+  // Actually, let's use the simplest logic: translate based on index.
+  const moveDistance = pCurrent * (slideWidth + gap);
+  
+  // Since it's RTL, moveDistance positive usually moves things LEFT visually.
+  projectsCarousel.style.transform = `translateX(${moveDistance}px)`;
+
+  pDots.forEach((dot, index) => {
+    dot.classList.toggle('active', index === pCurrent);
+  });
+}
+
+function nextProjectSlide() {
+  const slides = projectsCarousel?.querySelectorAll('.project-slide');
+  if (!slides || slides.length === 0) return;
+  pCurrent = (pCurrent + 1) % slides.length;
+  updateProjectsSlider();
+}
+
+if (projectsCarousel) {
+  const outer = projectsCarousel.parentElement;
+  let startX = 0;
+
+  outer.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].pageX;
+    stopPAutoSlide();
+  }, { passive: true });
+
+  outer.addEventListener('touchend', (e) => {
+    const endX = e.changedTouches[0].pageX;
+    if (startX - endX > 50) nextProjectSlide();
+    else if (endX - startX > 50) {
+      const slides = projectsCarousel.querySelectorAll('.project-slide');
+      pCurrent = (pCurrent - 1 + slides.length) % slides.length;
+      updateProjectsSlider();
+    }
+    startPAutoSlide();
+  }, { passive: true });
+
+  // Mouse Drag Simulation
+  let isDown = false;
+  let mouseStartX;
+
+  outer.addEventListener('mousedown', (e) => {
+    isDown = true;
+    mouseStartX = e.pageX;
+    stopPAutoSlide();
+  });
+
+  outer.addEventListener('mouseleave', () => {
+    isDown = false;
+  });
+
+  outer.addEventListener('mouseup', (e) => {
+    if (!isDown) return;
+    isDown = false;
+    const endX = e.pageX;
+    if (mouseStartX - endX > 50) nextProjectSlide();
+    else if (endX - mouseStartX > 50) {
+      const slides = projectsCarousel.querySelectorAll('.project-slide');
+      pCurrent = (pCurrent - 1 + slides.length) % slides.length;
+      updateProjectsSlider();
+    }
+    startPAutoSlide();
+  });
+}
+
+function startPAutoSlide() {
+  if (!projectsCarousel) return;
+  stopPAutoSlide();
+  pAutoSlide = setInterval(nextProjectSlide, 4000);
+}
+
+function stopPAutoSlide() {
+  if (pAutoSlide) clearInterval(pAutoSlide);
+}
+
+window.addEventListener('load', () => {
+  if (projectsCarousel) {
+    updateProjectsSlider();
+    startPAutoSlide();
+  }
+});
+
+window.addEventListener('resize', () => {
+  if (projectsCarousel) updateProjectsSlider();
+});
