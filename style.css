@@ -2298,9 +2298,9 @@ ul {
 
 .experience-section {
   position: relative;
-  padding: 88px 0;
+  padding: 55px 0;
   overflow: hidden;
-  width: 70%;
+  width: 85%;
   margin: 120px auto;
 }
 
@@ -3640,9 +3640,11 @@ ul {
   .projects-slider-section {
     padding: 60px 0;
   }
+
   .project-slide {
     flex: 0 0 90%;
   }
+
   .project-slide img {
     height: 300px;
   }
